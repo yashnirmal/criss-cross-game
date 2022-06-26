@@ -1,0 +1,40 @@
+.CC-div{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-grid-image{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.row-3{
+    background-color: white;
+    width: 80%;
+    aspect-ratio: 1/1;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+}
+
+.column-3{
+    display: grid;
+    grid-template-rows: repeat(3,1fr);
+    gap: 10px;
+}
+
+.block{
+    background-color: brown;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.block:active{
+    background-color: rgb(134, 32, 32);
+}
