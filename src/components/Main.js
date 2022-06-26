@@ -33,8 +33,6 @@ export default function Main() {
             <input className='room-code-input' type="text" placeholder='Enter room code' />
             <br />
             <button className='Button' onClick={enterARoom}>Enter the room</button>
-            <h2 style={{margin:"10px 0"}}>OR</h2>
-            <button className='Button'>Start a room</button>
             <span style={{marginTop:20}}>Your Room Id : {playerId}</span>
         </div>
         <div className='game-block'>

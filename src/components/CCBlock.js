@@ -1,22 +1,17 @@
-import { Button } from '@material-ui/core';
 import React,{useState} from 'react';
 import { useEffect } from 'react';
 import "./CCBlock.css";
 import mSocket from './MySocket';
-import {useSelector,useDispatch} from "react-redux";
-import { joinRoom } from '../redux/action/action';
+import {useSelector} from "react-redux";
 
-// let arr= Array(9).fill("");
 
 export default function CCBlock() {
 
   const [nextMoveSymbol,setNextMoveSymbol] = useState('X');
-  // let nextMoveSymbol = "X";
   const [gameFinished,setGameFinished] = useState(false);
   const [chanceToPlay,setChanceToPlay]=useState(false);
   const [arr,setArr] = useState(Array(9).fill(""))
   const mState = useSelector((state) => state.joinRoomReducer);
-  const dispatch = useDispatch();
 
   
   useEffect(()=>{
@@ -43,6 +38,8 @@ export default function CCBlock() {
 
   },[mSocket]);
 
+
+
   function blockClicked(e){
     if (gameFinished) return;
     if (chanceToPlay===false) return;
@@ -52,14 +49,6 @@ export default function CCBlock() {
       clickedBlock.children[0].innerText = nextMoveSymbol;
       num = clickedBlock.classList[1].substring(1);
       arr[num-1] = nextMoveSymbol;
-      // mSocket.emit('block-clicked',arr);
-      // checkForWin(num,nextMoveSymbol);
-
-      // if (nextMoveSymbol == "X") {
-      //   setNextMoveSysmbol("O");
-      // } else if (nextMoveSymbol == "O") {
-      //   setNextMoveSysmbol("X");
-      // }
     }
     else if (
       clickedBlock.parentNode.classList.contains("block") &&
@@ -67,18 +56,7 @@ export default function CCBlock() {
       clickedBlock.innerText = nextMoveSymbol;
       num = clickedBlock.classList[1].substring(1);
       arr[num - 1] = nextMoveSymbol;
-      // mSocket.emit("block-clicked", arr);
-      // checkForWin(
-      //   clickedBlock.parentNode.classList[1].substring(1),
-      //   nextMoveSymbol
-      // );
       num = clickedBlock.parentNode.classList[1].substring(1);
-
-      // if (nextMoveSymbol == "X") {
-      //   setNextMoveSysmbol("O");
-      // } else if (nextMoveSymbol == "O") {
-      //   setNextMoveSysmbol("X");
-      // }
     }
 
     mSocket.emit("move-played-to-backend",{num,room:mState,nextMove:(nextMoveSymbol=="X")?"O":"X"});
