@@ -6,15 +6,15 @@ import mSocket from './MySocket';
 import {useSelector,useDispatch} from "react-redux";
 import { joinRoom } from '../redux/action/action';
 
-let arr= Array(9).fill("");
+// let arr= Array(9).fill("");
 
 export default function CCBlock() {
 
   const [nextMoveSymbol,setNextMoveSymbol] = useState('X');
   // let nextMoveSymbol = "X";
-  const [gameFinished,setgameFinished] = useState(false);
+  const [gameFinished,setGameFinished] = useState(false);
   const [chanceToPlay,setChanceToPlay]=useState(false);
-  // const [arr,setArr] = useState(Array(9).fill(""))
+  const [arr,setArr] = useState(Array(9).fill(""))
   const mState = useSelector((state) => state.joinRoomReducer);
   const dispatch = useDispatch();
 
@@ -29,10 +29,17 @@ export default function CCBlock() {
     mSocket.on("move-played-from-backend", (data) => {
       console.log(data);
       console.log("move-played", data.arr);
-      arr = data.arr;
+      setArr(data.arr);
       setNextMoveSymbol(data.nextMove);
-      setChanceToPlay(true);
+      setChanceToPlay(data.chance);
     });
+
+    mSocket.on("game-won",data=>{
+      alert(`${data} won the game!!!`);
+      setArr(Array(9).fill(""))
+      mSocket.emit("clear-array");
+      setGameFinished(true);
+    })
 
   },[mSocket]);
 
@@ -80,11 +87,8 @@ export default function CCBlock() {
 
 
   function startNewGame(e){
-    setgameFinished(false);
-    arr= new Array(9);
-    for(let el of document.querySelectorAll('.block')){
-      el.children[0].innerText="";
-    }
+    setGameFinished(false);
+    arr= Array(9).fill("");
   }
 
   return (
@@ -98,7 +102,7 @@ export default function CCBlock() {
                 blockClicked(e);
               }}
             >
-              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}></h1>
+              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}>{arr[0]}</h1>
             </div>
             <div
               className="block b2"
@@ -106,7 +110,7 @@ export default function CCBlock() {
                 blockClicked(e);
               }}
             >
-              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}></h1>
+              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}>{arr[1]}</h1>
             </div>
             <div
               className="block b3"
@@ -114,7 +118,7 @@ export default function CCBlock() {
                 blockClicked(e);
               }}
             >
-              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}></h1>
+              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}>{arr[2]}</h1>
             </div>
           </div>
           <div className="column-3">
@@ -124,7 +128,7 @@ export default function CCBlock() {
                 blockClicked(e);
               }}
             >
-              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}></h1>
+              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}>{arr[3]}</h1>
             </div>
             <div
               className="block b5"
@@ -132,7 +136,7 @@ export default function CCBlock() {
                 blockClicked(e);
               }}
             >
-              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}></h1>
+              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}>{arr[4]}</h1>
             </div>
             <div
               className="block b6"
@@ -140,7 +144,7 @@ export default function CCBlock() {
                 blockClicked(e);
               }}
             >
-              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}></h1>
+              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}>{arr[5]}</h1>
             </div>
           </div>
           <div className="column-3">
@@ -150,7 +154,7 @@ export default function CCBlock() {
                 blockClicked(e);
               }}
             >
-              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}></h1>
+              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}>{arr[6]}</h1>
             </div>
             <div
               className="block b8"
@@ -158,7 +162,7 @@ export default function CCBlock() {
                 blockClicked(e);
               }}
             >
-              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}></h1>
+              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}>{arr[7]}</h1>
             </div>
             <div
               className="block b9"
@@ -166,7 +170,7 @@ export default function CCBlock() {
                 blockClicked(e);
               }}
             >
-              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}></h1>
+              <h1 style={{ fontWeight: "bold", fontSize: "4rem" }}>{arr[8]}</h1>
             </div>
           </div>
         </div>
